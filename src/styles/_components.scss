@@ -1,0 +1,567 @@
+@use 'variables' as *;
+
+.button {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.35rem;
+  border-radius: $radius-pill;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color $transition-base,
+    color $transition-base,
+    transform $transition-base,
+    border-color $transition-base;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button--primary {
+  color: $color-white;
+  background-color: $color-accent-dark;
+}
+
+.button--primary:hover {
+  background-color: $color-burgundy;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(1.4rem);
+  transition:
+    opacity 760ms ease,
+    transform 760ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero {
+  padding-block: $space-4 $space-12;
+}
+
+.hero__container {
+  display: grid;
+  min-height: calc(100svh - 2rem);
+  align-content: start;
+  gap: $space-6;
+  padding: $space-3;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  background: rgba($color-surface, 0.82);
+  box-shadow: $shadow-soft;
+}
+
+.hero__media {
+  overflow: hidden;
+  border-radius: calc($radius-lg - 0.25rem);
+}
+
+.hero__content {
+  display: grid;
+  gap: $space-5;
+  justify-items: center;
+  padding: $space-6 $space-3 $space-8;
+  text-align: center;
+}
+
+.hero__eyebrow {
+  color: $color-accent-dark;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero__lead {
+  max-width: 31rem;
+  color: $color-text-muted;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.hero__title {
+  display: grid;
+  gap: $space-1;
+  font-family: $font-family-accent;
+  font-size: clamp(3.4rem, 18vw, 7.5rem);
+  font-weight: 400;
+  line-height: 0.86;
+}
+
+.hero__ampersand {
+  color: $color-terracotta;
+  font-size: 0.56em;
+  line-height: 1;
+}
+
+.photo-placeholder {
+  position: relative;
+  display: grid;
+  min-height: 18rem;
+  place-items: end start;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    linear-gradient(145deg, rgba($color-accent, 0.54), rgba($color-rose, 0.32)),
+    linear-gradient(180deg, $color-surface-muted, $color-page);
+}
+
+.photo-placeholder::before,
+.photo-placeholder::after {
+  position: absolute;
+  content: '';
+  pointer-events: none;
+}
+
+.photo-placeholder::before {
+  inset: 12% 12% auto auto;
+  width: 42%;
+  aspect-ratio: 1;
+  border: 1px solid rgba($color-white, 0.55);
+  border-radius: 50%;
+}
+
+.photo-placeholder::after {
+  inset: auto 0 0;
+  height: 45%;
+  background: linear-gradient(0deg, rgba($color-text, 0.26), transparent);
+  z-index: -1;
+}
+
+.photo-placeholder__text {
+  margin: $space-4;
+  padding: $space-2 $space-4;
+  border: 1px solid rgba($color-white, 0.38);
+  border-radius: $radius-pill;
+  color: $color-white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.photo-placeholder__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-placeholder--couple {
+  min-height: clamp(19rem, 70svh, 34rem);
+}
+
+.photo-placeholder--venue {
+  min-height: 16rem;
+  border-radius: $radius-md;
+}
+
+.photo-placeholder--final {
+  min-height: 20rem;
+  border-radius: $radius-lg;
+  background:
+    linear-gradient(145deg, rgba($color-burgundy, 0.44), rgba($color-accent, 0.34)),
+    linear-gradient(180deg, $color-surface-muted, $color-page);
+}
+
+.wedding-date {
+  display: grid;
+  width: min(100%, 22rem);
+  gap: $space-3;
+  justify-items: center;
+  padding-top: $space-2;
+}
+
+.wedding-date__month {
+  color: $color-burgundy;
+  font-family: $font-family-accent;
+  font-size: clamp(2.15rem, 10vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.wedding-date__calendar {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  row-gap: $space-2;
+}
+
+.wedding-date__weekday,
+.wedding-date__day {
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  line-height: 1;
+}
+
+.wedding-date__weekday {
+  color: $color-text-muted;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.wedding-date__day {
+  position: relative;
+  min-height: 3.4rem;
+  color: $color-text;
+  font-family: $font-family-accent;
+  font-size: clamp(2rem, 9vw, 3rem);
+  font-weight: 500;
+  z-index: 0;
+}
+
+.wedding-date__day--active {
+  color: $color-white;
+}
+
+.wedding-date__day--active::before {
+  position: absolute;
+  width: clamp(3.35rem, 15vw, 4.6rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    linear-gradient(145deg, rgba($color-rose, 0.94), rgba($color-terracotta, 0.82));
+  box-shadow: 0 1rem 2.4rem rgba($color-terracotta, 0.18);
+  content: '';
+  z-index: -1;
+}
+
+.wedding-date__full {
+  color: $color-text-muted;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.countdown {
+  display: grid;
+  width: min(100%, 24rem);
+  gap: $space-3;
+  justify-items: center;
+  padding-top: $space-1;
+}
+
+.countdown__label {
+  color: $color-accent-dark;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.countdown__grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: $space-2;
+}
+
+.countdown__item {
+  display: grid;
+  min-width: 0;
+  gap: $space-1;
+  padding: $space-3 $space-2;
+  border-block: 1px solid rgba($color-terracotta, 0.28);
+}
+
+.countdown__value {
+  color: $color-burgundy;
+  font-family: $font-family-accent;
+  font-size: clamp(1.45rem, 7vw, 2.15rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.countdown__unit {
+  color: $color-text-muted;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.countdown.is-finished .countdown__label {
+  color: $color-success;
+}
+
+.decor-divider {
+  width: 4.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, $color-rose, $color-terracotta, transparent);
+}
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: $space-8;
+  max-width: 43rem;
+  justify-self: stretch;
+  text-align: left;
+}
+
+.timeline::before {
+  position: absolute;
+  top: 0.8rem;
+  bottom: 0.8rem;
+  left: 4.15rem;
+  width: 1px;
+  background-color: $color-border;
+  content: '';
+}
+
+.timeline__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5.75rem minmax(0, 1fr);
+  gap: $space-4;
+}
+
+.timeline__item:nth-child(2) {
+  --reveal-delay: 80ms;
+}
+
+.timeline__item:nth-child(3) {
+  --reveal-delay: 160ms;
+}
+
+.timeline__item:nth-child(4) {
+  --reveal-delay: 240ms;
+}
+
+.timeline__item:nth-child(5) {
+  --reveal-delay: 320ms;
+}
+
+.timeline__item::before {
+  position: absolute;
+  top: 0.62rem;
+  left: 3.82rem;
+  width: 0.7rem;
+  aspect-ratio: 1;
+  border: 2px solid $color-page;
+  border-radius: 50%;
+  background-color: $color-terracotta;
+  content: '';
+  z-index: 1;
+}
+
+.timeline__time {
+  color: $color-accent-dark;
+  font-family: $font-family-accent;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.timeline__content {
+  display: grid;
+  gap: $space-2;
+}
+
+.timeline__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.timeline__text {
+  color: $color-text-muted;
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.location__layout {
+  display: grid;
+  gap: $space-6;
+  width: 100%;
+  text-align: left;
+}
+
+.location__media {
+  display: grid;
+  gap: $space-3;
+}
+
+.location__caption {
+  color: $color-text-muted;
+  font-size: 0.8rem;
+}
+
+.location__content {
+  display: grid;
+  gap: $space-5;
+  align-content: center;
+}
+
+.location__address {
+  color: $color-text;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.contacts__person {
+  display: grid;
+  gap: $space-2;
+  justify-items: center;
+  padding-top: $space-2;
+  color: $color-text;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.contacts__phone {
+  color: $color-burgundy;
+  text-decoration: underline;
+  text-decoration-color: rgba($color-burgundy, 0.32);
+  text-underline-offset: 0.24em;
+}
+
+.contacts__phone:hover {
+  text-decoration-color: currentColor;
+}
+
+.wishes__text {
+  max-width: 37rem;
+  color: $color-accent-dark;
+  font-family: $font-family-accent;
+  font-size: clamp(1.45rem, 7vw, 2.45rem);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  justify-content: center;
+  padding-top: $space-2;
+}
+
+.palette__swatch {
+  display: block;
+  width: 3rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba($color-text, 0.14);
+  border-radius: 50%;
+  background-color: var(--swatch-color);
+  box-shadow: inset 0 0 0 0.35rem rgba($color-white, 0.22);
+}
+
+.dress-code__note {
+  color: $color-text-muted;
+  font-size: 0.94rem;
+}
+
+.final {
+  padding-block: $space-8 $space-16;
+}
+
+.final__container {
+  display: grid;
+  gap: $space-6;
+  text-align: center;
+}
+
+.final__title {
+  font-family: $font-family-accent;
+  font-size: clamp(2.7rem, 14vw, 6rem);
+  font-weight: 400;
+  line-height: 0.96;
+}
+
+@media (min-width: $bp-sm) {
+  .hero__container {
+    padding: $space-4;
+  }
+
+  .hero__content {
+    padding-inline: $space-5;
+  }
+}
+
+@media (min-width: $bp-md) {
+  .hero {
+    padding-block: $space-8 $space-16;
+  }
+
+  .hero__container {
+    min-height: auto;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.9fr);
+    align-items: stretch;
+    padding: $space-5;
+  }
+
+  .hero__media {
+    min-height: 36rem;
+  }
+
+  .hero__content {
+    align-content: center;
+    padding: $space-8;
+  }
+
+  .hero__title {
+    font-size: clamp(4.5rem, 8vw, 7.5rem);
+  }
+
+  .location__layout {
+    grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.85fr);
+    align-items: center;
+    gap: $space-10;
+  }
+
+  .timeline {
+    margin-inline: auto;
+  }
+
+  .timeline__item {
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: $space-6;
+  }
+
+  .timeline::before {
+    left: 5rem;
+  }
+
+  .timeline__item::before {
+    left: 4.67rem;
+  }
+}
+
+@media (min-width: $bp-lg) {
+  .section__text {
+    font-size: 1.05rem;
+  }
+
+  .timeline__title {
+    font-size: 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+}
