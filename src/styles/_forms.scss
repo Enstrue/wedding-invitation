@@ -90,6 +90,16 @@
   width: 100%;
 }
 
+.rsvp-form.is-submitting .rsvp-form__submit {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.rsvp-form.is-submitting .rsvp-form__submit::after {
+  margin-left: $space-2;
+  content: '...';
+}
+
 .choice-card,
 .checkbox-card {
   position: relative;

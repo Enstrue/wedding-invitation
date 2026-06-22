@@ -1,7 +1,8 @@
-import type { Attendance, DrinkPreference, RsvpFormData, RsvpFormErrors } from './types';
+import type { Attendance, AttendanceLabel, RsvpFormData, RsvpFormErrors } from './types';
 
 const FORM_ID = 'rsvp-form';
 const SUCCESS_ID = 'rsvp-success';
+const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyw35DX3OlVMfYYkD62v0fJMTfAiLlW9OJXlbWXlgjRYQXkKG-PtztWUWmW53ibuCAU/exec';
 
 export function initRsvpForm(): void {
   const form = document.getElementById(FORM_ID);
@@ -17,29 +18,53 @@ export function initRsvpForm(): void {
     const data = getFormData(form);
     const errors = validateForm(data);
 
+    console.debug('RSVP submit attempt:', data, errors);
+
     renderErrors(form, errors);
 
     if (Object.keys(errors).length > 0) {
       return;
     }
 
-    console.log('RSVP response:', data);
-    showSuccessMessage(form);
+    form.classList.add('is-submitting');
+
+    submitRsvp(form, data)
+      .then(() => {
+        showSuccessMessage(form);
+      })
+      .catch((error) => {
+        console.error('RSVP submit failed:', error);
+        showSuccessMessage(form);
+      })
+      .finally(() => {
+        form.classList.remove('is-submitting');
+      });
+  });
+}
+
+async function submitRsvp(form: HTMLFormElement, data: RsvpFormData): Promise<void> {
+  const body = new FormData(form);
+  body.set('guestName', data.guestName);
+  body.set('attendance', formatAttendance(data.attendance));
+  body.set('comment', data.comment);
+  body.set('submittedAt', new Date().toISOString());
+
+  console.debug('RSVP request payload:', Object.fromEntries(body.entries()));
+
+  await fetch(RSVP_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    body,
   });
 }
 
 export function getFormData(form: HTMLFormElement): RsvpFormData {
   const formData = new FormData(form);
   const attendance = getAttendanceValue(formData.get('attendance'));
-  const drinks = formData
-    .getAll('drinks')
-    .map((drink) => String(drink))
-    .filter(isDrinkPreference);
 
   return {
     attendance,
     guestName: String(formData.get('guestName') ?? '').trim(),
-    drinks,
     comment: String(formData.get('comment') ?? '').trim(),
   };
 }
@@ -55,10 +80,6 @@ export function validateForm(data: RsvpFormData): RsvpFormErrors {
     errors.guestName = 'Пожалуйста, укажите имя и фамилию.';
   } else if (data.guestName.length < 2) {
     errors.guestName = 'Имя должно содержать минимум 2 символа.';
-  }
-
-  if (data.attendance === 'yes' && data.drinks.length === 0) {
-    errors.drinks = 'Пожалуйста, выберите хотя бы один напиток.';
   }
 
   return errors;
@@ -115,6 +136,14 @@ function getAttendanceValue(value: FormDataEntryValue | null): Attendance {
   return '';
 }
 
-function isDrinkPreference(value: string): value is DrinkPreference {
-  return ['redWine', 'whiteWine', 'sparklingWine', 'vodka', 'cognac', 'nonAlcoholic'].includes(value);
+function formatAttendance(value: Attendance): AttendanceLabel {
+  if (value === 'yes') {
+    return 'Да, приду';
+  }
+
+  if (value === 'no') {
+    return 'Нет, не смогу';
+  }
+
+  return '';
 }
